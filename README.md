@@ -2,9 +2,9 @@
 ---
 ## Project Info
 Internet of Borg is an idea to repurpose a standard water cooler to dispense Borg and have the ability to rate limit drinkers based on how much they have drank. There are lots of ideas for future major releases, but this version seeks to be able to:
-- [] Detect when a user is trying to dispense Borg
-- [] Limit how much can be dispensed at a time using a servo controller valve
-- [] Keep track of how much has been dispensed in total (for low liquid level alerts)
+- [ ] Detect when a user is trying to dispense Borg
+- [ ] Limit how much can be dispensed at a time using a servo controller valve
+- [ ] Keep track of how much has been dispensed in total (for low liquid level alerts)
 
 Future versions of the project hope to be able to:
 - Keep track of how much each user has drank (through on-cup RFID)
