@@ -1,33 +1,47 @@
 // io.h
 // Initializes and configures IO definitions
-#include <Adafruit_NeoPixel.h>
+
+#ifndef IO_H
+#define IO_H
+
+#include "include.h"
 
 //------- Define GPIO
-const int solenoidPin = 16; //Relay driving solenoid
-const int flowSensor = 5;
-const int btnPin = 4; //Button input
-const int stripPin = 2; //LED Strip
-//Button LEDs:
-const int btnRed = 14;
-const int btnGreen = 12;
-const int btnBlue = 13;
+const int flowSensorPin = 5; // Flow sensor signal
+const int btnPin = D3; // Button input
+const int stripPin = D4; // LED Strip
 
+// Stepper Driver
+const int stepperPin = D0;
+const int stepperEnPin = D1;
+const int stepperDirPin = D2;
+
+// Button LEDs
+const int btnRed = D5;
+const int btnGreen = D6;
+const int btnBlue = D7;
 //--------
-const int numPixels = 8; //Number of LEDs on strip
+
+const int numPixels = 8; // Number of LEDs on strip
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(numPixels, stripPin, NEO_GRB + NEO_KHZ800);
 RGBLed buttonLED(btnRed, btnGreen, btnBlue, RGBLed::COMMON_CATHODE);
 
 
 void initializePins() {
-    pinMode(solenoidPin, OUTPUT);
-    pinMode(flowSensor, INPUT);
-    pinMode(btnPin, INPUT);
+    pinMode(stepperPin, OUTPUT);
+    pinMode(stepperEnPin, OUTPUT);
+    pinMode(stepperDirPin, OUTPUT);
+    pinMode(flowSensorPin, INPUT);
+    pinMode(btnPin, INPUT_PULLUP);
     pinMode(btnRed, OUTPUT);
     pinMode(btnGreen, OUTPUT);
     pinMode(btnBlue, OUTPUT);
     
     strip.begin();
     strip.setBrightness(50);
-    strip.show(); //Initialize all pixels to off
+    strip.clear();
+    strip.show(); // Initialize all pixels to off
 }
+
+#endif
