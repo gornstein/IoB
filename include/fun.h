@@ -54,4 +54,6 @@ void updateStripColor(int red, int green, int blue) { // Sets RGB levels for eac
   //strip.show();
 }
 
+void dispenseBeverage()
+
 #endif
