@@ -1,10 +1,11 @@
 // Internet of Borg 2.0 software
+// Created by Graham Ornstein gh@gornstein
 
 #include "include.h"
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("Starting up...");
+  Serial.println("HOPE YOU'RE THIRSTY (starting up)");
   Serial.println("Initializing pins...");
   initializePins();
 
@@ -17,9 +18,9 @@ void loop() {
   if (currentMillis - lastMillis >= 500) { // Calculate pulses per half second and multiply by two
     pulsesPerSecond = pulseCount * 2;
     lastMillis = currentMillis;
-    Serial.printf("\n\rPulses per second: %d",pulsesPerSecond);
-    if (pulsesPerSecond >= pulseTriggerSensitivity) dispenseBeverage();
-    pulseCount = 0;
+    Serial.println("Pulses per second: " + pulsesPerSecond);
+    if (pulsesPerSecond >= pulseTriggerSensitivity) dispenseBeverage(); // If liquid start flowing run dispenseBeverage
+    pulseCount = 0; // Reset pulseCount for next iteration
   }
 
 }

@@ -54,23 +54,46 @@ void updateStripColor(int red, int green, int blue) { // Sets RGB levels for eac
   for (int i = 0; i < numPixels; i++) {
     strip.setPixelColor(i, red, green, blue);
   }
-  //strip.show();
+  strip.show();
 }
 
-void dispenseBeverage() {
+void dispenseBeverage() { // Main function for handling drink dispensing functionality. Triggered by a flow of liquid through the flow sensor since the valve is normally open
   unsigned long startDispenseTime = millis();
+  unsigned long lastMillis2 = 0; // Keep track of time since last checked pulses per second
+  int pulseCount2 = pulseCount; // To keep track of delta pulseCount
+  int pulsesPerSecond2 = 0; // Pulses per second during dispensing
+  Serial.println("Stupid fuck got thirsty - dispensing bev...");
   while (true){
+    unsigned long currentMillis = millis();
     if (pulseCount >= dispenseLimitPulses){ // Dispense limit reached
-      
+      Serial.println("Needy whore is dispensing too much - closing valve...");
+      setValve(1); // Shut valve
+      cooldown();
+      return;
     }
+    else if (currentMillis - startDispenseTime >= dispenseTimeout){
+      Serial.println("Dumb idiot is taking too long - timing out (returning to loop)");
+      return;
+    }
+    else if (currentMillis - lastMillis2 >= 500) { // If bev stops flowing, user must be done dispensing so return to main loop without shutting valve
+      pulsesPerSecond2 = (pulseCount - pulseCount2) * 2;
+      lastMillis2 = currentMillis;
+      Serial.println("Pulses per second: " + pulsesPerSecond2);
+      if (pulsesPerSecond2 <= pulseTriggerSensitivity){ // Bev stopped flowing
+        Serial.println("Bev has stopped flowing, returning to main loop");
+        return;
+      }
+      pulseCount2 = pulseCount;
+    }
+    
   }
 }
 
-ICACHE_RAM_ATTR void countPulse(){
+ICACHE_RAM_ATTR void countPulse(){ // Triggered by flow sensor HW interrupt - each pulse rising edge increments pulseCount by one
   pulseCount++;
 }
 
-void setValve(bool state){
+void setValve(bool state){ // State = 1 closes the valve; State = 0 opens the valve. Valve is normally open
   if (state) { // Open -> Closed
     if (stepperState) return; // Check if stepper is already closed
     digitalWrite(stepperEnPin, LOW); // Turn stepper motor on
@@ -99,6 +122,14 @@ void setValve(bool state){
     stepperState = 0;
     return;
   }
+}
+
+void cooldown(){ // Used after a valve-close condition is met to wait a few seconds for the thirsty fuck to leave the dispenser before reopening the valve
+  Serial.println("Timing out while thirsty fuck leaves before reopening valve");
+  delay(dispenseCooldown);
+  Serial.println("Timeout is over - reopening valve");
+  setValve(0);
+  return;
 }
 
 #endif
