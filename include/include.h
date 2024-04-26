@@ -10,6 +10,7 @@
 #include <Arduino.h>
 #include <RGBLed.h>
 #include "settings.h"
+#include "stubs.h"
 #include "io.h"
 #include "fun.h"
 
