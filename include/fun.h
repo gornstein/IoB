@@ -100,7 +100,7 @@ void setValve(bool state){ // State = 1 closes the valve; State = 0 opens the va
     for (int i = 0; i < stepsQuarterTurn; i++){ // Step through number of steps for a quarter turn
       digitalWrite(stepperPin, HIGH);
       delay(1);
-      digitalWrite(stepperDirPin, LOW);
+      digitalWrite(stepperPin, LOW);
       delay(1);
     }
     digitalWrite(stepperEnPin, HIGH); // Turn stepper motor off
@@ -114,7 +114,7 @@ void setValve(bool state){ // State = 1 closes the valve; State = 0 opens the va
     for (int i = 0; i < stepsQuarterTurn; i++){ // Step through number of steps for a quarter turn
       digitalWrite(stepperPin, HIGH);
       delay(1);
-      digitalWrite(stepperDirPin, LOW);
+      digitalWrite(stepperPin, LOW);
       delay(1);
     }
     digitalWrite(stepperEnPin, HIGH); // Disable stepper motor
