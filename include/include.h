@@ -11,5 +11,6 @@
 #include <RGBLed.h>
 #include "settings.h"
 #include "io.h"
+#include "fun.h"
 
 #endif

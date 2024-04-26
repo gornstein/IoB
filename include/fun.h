@@ -5,6 +5,8 @@
 
 #include "include.h"
 
+volatile int pulseCount = 0;
+
 void setStrip(int program) {
   switch (program) {
       case 0: // General and Initializing
@@ -55,7 +57,22 @@ void updateStripColor(int red, int green, int blue) { // Sets RGB levels for eac
 }
 
 void dispenseBeverage() {
+  unsigned long startDispenseTime = millis();
+  pulseCount = 0;
+  while (float flowRate = getFlow()){
+    if (!(-0.5 < flowRate < 0.5)) break; // ENDFLOW
+    if 
+  }
+}
+
+ICACHE_RAM_ATTR void countPulse(){
+  pulseCount++;
+}
+
+float getFlow(){
   
 }
 
 #endif
+
+(TIMEOUT || LIMIT || ENDFLOW)

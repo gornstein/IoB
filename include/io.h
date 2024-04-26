@@ -7,7 +7,7 @@
 #include "include.h"
 
 //------- Define GPIO
-const int flowSensorPin = 5; // Flow sensor signal
+const int flowSensorPin = D8; // Flow sensor signal
 const int btnPin = D3; // Button input
 const int stripPin = D4; // LED Strip
 
@@ -29,19 +29,22 @@ RGBLed buttonLED(btnRed, btnGreen, btnBlue, RGBLed::COMMON_CATHODE);
 
 
 void initializePins() {
-    pinMode(stepperPin, OUTPUT);
-    pinMode(stepperEnPin, OUTPUT);
-    pinMode(stepperDirPin, OUTPUT);
-    pinMode(flowSensorPin, INPUT);
-    pinMode(btnPin, INPUT_PULLUP);
-    pinMode(btnRed, OUTPUT);
-    pinMode(btnGreen, OUTPUT);
-    pinMode(btnBlue, OUTPUT);
+  pinMode(stepperPin, OUTPUT);
+  pinMode(stepperEnPin, OUTPUT);
+  pinMode(stepperDirPin, OUTPUT);
+
+  pinMode(flowSensorPin, INPUT);
+	attachInterrupt(digitalPinToInterrupt(flowSensorPin), countPulse, RISING);
+
+  pinMode(btnPin, INPUT_PULLUP);
+  pinMode(btnRed, OUTPUT);
+  pinMode(btnGreen, OUTPUT);
+  pinMode(btnBlue, OUTPUT);
     
-    strip.begin();
-    strip.setBrightness(50);
-    strip.clear();
-    strip.show(); // Initialize all pixels to off
+  strip.begin();
+  strip.setBrightness(50);
+  strip.clear();
+  strip.show(); // Initialize all pixels to off
 }
 
 #endif
