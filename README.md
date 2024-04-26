@@ -23,7 +23,9 @@ Internet of Borg v2 is almost a complete rewrite:
 - Easier UX for dispensing
 
 Most importantly, IoB v2 will use a servo controlled ball valve instead of a solenoid valve in order to provide minimal flow restriction. More info on this in the hardware section.
+
 ---
+
 ## Software Components:
 The general software layout is as follows:
 | File | Description |
@@ -37,7 +39,9 @@ The general software layout is as follows:
 On IoB v1, serial messages were sent over BlynkIO. For this project I will be using standard Serial over the ESP microUSB port. 
 
 On IoB v1, drink dispensing was triggered by the user pressing the button which would open the valve and shut the valve by a timeout or after the dispense limit was reached, whichever came first. On IoB v2, drink dispensing is simply triggered by the flow sensor, indicating that a user has begun to dispense a drink. This means the valve will be left normally open and will only interrupt the flow if a rate limit condition is met, in which case it will close the valve and wait for a delay before resetting the state. The state will also be able to be reset by pressing the button, which will reopen the valve. In the future with cup ID technology, the valve will be normally closed and will automatically open when a cup is presented and its embedded RFID is read and validated. The valve will close when the cup is removed from the spigot area or when the limit is reached, whichever comes first.
+
 ---
+
 ## Hardware Components:
 Another major change from IoB v1 is the new custom PCB. The schematic files will be included in the hw folder along with a hardware readme if I ever get around to making that.
 For now, the hardware consists of:
