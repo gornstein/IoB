@@ -31,6 +31,7 @@ RGBLed buttonLED(btnRed, btnGreen, btnBlue, RGBLed::COMMON_CATHODE);
 void initializePins() {
   pinMode(stepperPin, OUTPUT);
   pinMode(stepperEnPin, OUTPUT);
+	digitalWrite(stepperEnPin, HIGH);
   pinMode(stepperDirPin, OUTPUT);
 
   pinMode(flowSensorPin, INPUT);

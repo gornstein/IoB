@@ -6,6 +6,7 @@
 #include "include.h"
 
 volatile int pulseCount = 0;
+bool stepperState = 1; // TRUE = Closed. Assume stepper is starting in open state
 
 void setStrip(int program) {
   switch (program) {
@@ -58,10 +59,10 @@ void updateStripColor(int red, int green, int blue) { // Sets RGB levels for eac
 
 void dispenseBeverage() {
   unsigned long startDispenseTime = millis();
-  pulseCount = 0;
-  while (float flowRate = getFlow()){
-    if (!(-0.5 < flowRate < 0.5)) break; // ENDFLOW
-    if 
+  while (true){
+    if (pulseCount >= dispenseLimitPulses){ // Dispense limit reached
+      
+    }
   }
 }
 
@@ -69,10 +70,35 @@ ICACHE_RAM_ATTR void countPulse(){
   pulseCount++;
 }
 
-float getFlow(){
-  
+void setValve(bool state){
+  if (state) { // Open -> Closed
+    if (stepperState) return; // Check if stepper is already closed
+    digitalWrite(stepperEnPin, LOW); // Turn stepper motor on
+    for (int i = 0; i < stepsQuarterTurn; i++){ // Step through number of steps for a quarter turn
+      digitalWrite(stepperPin, HIGH);
+      delay(1);
+      digitalWrite(stepperDirPin, LOW);
+      delay(1);
+    }
+    digitalWrite(stepperEnPin, HIGH); // Turn stepper motor off
+    stepperState = 1; // Remember that the valve is now closed
+    return;
+  }
+  if (!state) { // Closed -> Open
+    if (!stepperState) return; // Check if stepper is already open
+    digitalWrite(stepperDirPin, HIGH); // Switch direction
+    digitalWrite(stepperEnPin, LOW); // Enable stepper motor
+    for (int i = 0; i < stepsQuarterTurn; i++){ // Step through number of steps for a quarter turn
+      digitalWrite(stepperPin, HIGH);
+      delay(1);
+      digitalWrite(stepperDirPin, LOW);
+      delay(1);
+    }
+    digitalWrite(stepperEnPin, HIGH); // Disable stepper motor
+    digitalWrite(stepperDirPin, LOW); // Reset direction pin
+    stepperState = 0;
+    return;
+  }
 }
 
 #endif
-
-(TIMEOUT || LIMIT || ENDFLOW)
