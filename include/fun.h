@@ -93,8 +93,8 @@ ICACHE_RAM_ATTR void countPulse(){ // Triggered by flow sensor HW interrupt - ea
   pulseCount++;
 }
 
-void setValve(bool state){ // State = 1 closes the valve; State = 0 opens the valve. Valve is normally open
-  if (state) { // Open -> Closed
+void setValve(bool state){ // State = 0 closes the valve; State = 1 opens the valve. Valve is normally open
+  if (!state) { // Open -> Closed
     if (stepperState) return; // Check if stepper is already closed
     digitalWrite(stepperEnPin, LOW); // Turn stepper motor on
     for (int i = 0; i < stepsQuarterTurn; i++){ // Step through number of steps for a quarter turn
@@ -107,7 +107,7 @@ void setValve(bool state){ // State = 1 closes the valve; State = 0 opens the va
     stepperState = 1; // Remember that the valve is now closed
     return;
   }
-  if (!state) { // Closed -> Open
+  if (state) { // Closed -> Open
     if (!stepperState) return; // Check if stepper is already open
     digitalWrite(stepperDirPin, HIGH); // Switch direction
     digitalWrite(stepperEnPin, LOW); // Enable stepper motor
@@ -117,7 +117,7 @@ void setValve(bool state){ // State = 1 closes the valve; State = 0 opens the va
       digitalWrite(stepperPin, LOW);
       delay(1);
     }
-    digitalWrite(stepperEnPin, HIGH); // Disable stepper motor
+    // digitalWrite(stepperEnPin, HIGH); // Disable stepper motor
     digitalWrite(stepperDirPin, LOW); // Reset direction pin
     stepperState = 0;
     return;

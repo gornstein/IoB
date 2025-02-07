@@ -22,8 +22,8 @@ void loop() {
   //   if (pulsesPerSecond >= pulseTriggerSensitivity) dispenseBeverage(); // If liquid start flowing run dispenseBeverage
   //   pulseCount = 0; // Reset pulseCount for next iteration
   // }
-  setValve(1);
-  delay(3000);
   setValve(0);
-  delay(5000);
+  delay(2000);
+  setValve(1);
+  delay(2000);
 }
